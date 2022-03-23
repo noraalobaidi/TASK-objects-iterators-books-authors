@@ -56,11 +56,10 @@ function booksByColor(books) {
   let colorsOfBooks = books.map((book) => book.color);
   let uniqueColors = [...new Set(colorsOfBooks)]; //convert array to set to remove duplicates
   let colorsArray = Array.from(uniqueColors);
-  // let booksFilter =
-  console.log(
-    "filter books",
-    colorsArray.map((c) => books.filter((book) => book.color === c))
+  let booksFilter = colorsArray.map((c) =>
+    books.filter((book) => book.color === c)
   );
+
   // console.log("books filter", booksFilter);
 
   return colors;
