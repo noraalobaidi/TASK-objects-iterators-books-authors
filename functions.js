@@ -10,6 +10,7 @@ const books = require("./books.json");
  ****************************************************************/
 function getBookById(bookId, books) {
   // Your code goes here
+  return books.find((book) => book.id === bookId);
 }
 // console.log(getBookById(12, books));
 
@@ -22,6 +23,9 @@ function getBookById(bookId, books) {
  ****************************************************************/
 function getAuthorByName(authorName, authors) {
   // Your code goes here
+  return authors.find(
+    (author) => authorName.toLowerCase() === author.name.toLowerCase()
+  );
 }
 // console.log(getAuthorByName("J.K. Rowling", authors));
 
@@ -33,8 +37,11 @@ function getAuthorByName(authorName, authors) {
  ****************************************************************/
 function bookCountsByAuthor(authors) {
   // Your code goes here
+
+  return authors.map((a) => ({ author: a.name, bookCount: a.books.length }));
 }
-// console.log(bookCountsByAuthor(authors));
+
+//console.log(bookCountsByAuthor(authors));
 
 /**************************************************************
  * booksByColor(books):
@@ -45,12 +52,20 @@ function bookCountsByAuthor(authors) {
  ****************************************************************/
 function booksByColor(books) {
   const colors = {};
-
   // Your code goes here
+  let colorsOfBooks = books.map((book) => book.color);
+  let uniqueColors = [...new Set(colorsOfBooks)]; //convert array to set to remove duplicates
+  let colorsArray = Array.from(uniqueColors);
+  // let booksFilter =
+  console.log(
+    "filter books",
+    colorsArray.map((c) => books.filter((book) => book.color === c))
+  );
+  // console.log("books filter", booksFilter);
 
   return colors;
 }
-// console.log(booksByColor(books));
+console.log(booksByColor(books));
 
 /**************************************************************
  * titlesByAuthorName(authorName, authors, books):
