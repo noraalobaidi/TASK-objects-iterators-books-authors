@@ -53,18 +53,29 @@ function bookCountsByAuthor(authors) {
 function booksByColor(books) {
   const colors = {};
   // Your code goes here
-  let colorsOfBooks = books.map((book) => book.color);
+  let colorsOfBooks = books.map((book) => book.color); //all colors in books with duplicates
   let uniqueColors = [...new Set(colorsOfBooks)]; //convert array to set to remove duplicates
   let colorsArray = Array.from(uniqueColors);
-  let booksFilter = colorsArray.map((c) =>
-    books.filter((book) => book.color === c)
-  );
+  // let arrayAllColors = colorsArray.map((c) =>
+  //   books.filter((book) => book.color === c)
+  // );
+  let arrayAllColors = colorsArray.map((c) => ({
+    colorr: c,
+    bookTitle: books.map((book) => book.title && book.color === c),
+  }));
+  //console.log("allcolors updated test !!! ", arrayAllColors[0]);
 
-  // console.log("books filter", booksFilter);
+  let finalArray = arrayAllColors.map((col) => ({
+    colorr: col.color,
+    bookTitle: col.title,
+  }));
 
   return colors;
 }
-console.log(booksByColor(books));
+//return authors.map((a) => ({ author: a.name, bookCount: a.books.length }));
+// console.log("books filter", booksFilter);
+
+//console.log(booksByColor(books));
 
 /**************************************************************
  * titlesByAuthorName(authorName, authors, books):
@@ -76,8 +87,17 @@ console.log(booksByColor(books));
  ****************************************************************/
 function titlesByAuthorName(authorName, authors, books) {
   // Your code goes here
+  let booksOfAuthor = books.filter((book) =>
+    book.authors.find(
+      (author) => author.name.toLowerCase() === authorName.toLowerCase()
+    )
+  );
+  //console.log(`books of author ${authorName}`, booksOfAuthor);
+  let booksTitles = booksOfAuthor.map((book) => book.title);
+  // console.log("titles of books", booksTitles);
+  return booksTitles;
 }
-// console.log(titlesByAuthorName("George R.R. Martin", authors, books));
+//console.log(titlesByAuthorName("George R.R. Martin", authors, books));
 
 /**************************************************************
  * mostProlificAuthor(authors):
@@ -88,8 +108,17 @@ function titlesByAuthorName(authorName, authors, books) {
  ****************************************************************/
 function mostProlificAuthor(authors) {
   // Your code goes here
+  let BooksAmountArray = authors.map((author) => author.books.length); // Array of the number of books of all authors
+  //console.log(mostBooks);
+  let maxBooks = Math.max(...BooksAmountArray); // get the max value of books
+  // console.log(maxBooks);
+  let indexofmax = BooksAmountArray.indexOf(maxBooks); // search for the index of the max value
+  // console.log(indexofmax);
+  let nameOfMAX = authors[indexofmax].name; // find the name of the author using the index found
+  //console.log(nameOfMAX);
+  return nameOfMAX;
 }
-// console.log(mostProlificAuthor(authors));
+//console.log(mostProlificAuthor(authors));
 
 /**************************************************************
  * relatedBooks(bookId, authors, books):
@@ -116,8 +145,31 @@ function mostProlificAuthor(authors) {
  ****************************************************************/
 function relatedBooks(bookId, authors, books) {
   // Your code goes here
+  let AuthorOftheBookInfo = books.find((book) => book.id === bookId);
+  let AuthorOftheBookNames = AuthorOftheBookInfo.authors.map(
+    (author) => author.name
+  );
+  //console.log("names", AuthorOftheBookNames);
+  let listOfBooks = AuthorOftheBookNames.map((author) =>
+    titlesByAuthorName(author, authors, books)
+  );
+  // console.log("list of books", listOfBooks);
+  let StringOfBooks = listOfBooks.join();
+  // console.log(StringOfBooks);
+  let ArrayOfTitles = StringOfBooks.split(",");
+  // console.log(ArrayOfTitles);
+
+  //bonus part  -- but i commented it because when i do the npm test it expects the array with duplicates
+  /*
+  let SetofTitles = [...new Set(ArrayOfTitles)]; //to remove duplicates convert to set
+
+  let finalArray = Array.from(SetofTitles);
+  // console.log("no duplicate", finalArray);
+  // return finalArray;
+  */
+  return ArrayOfTitles;
 }
-// console.log(relatedBooks(50, authors, books));
+//console.log(relatedBooks(50, authors, books));
 
 /**************************************************************
  * friendliestAuthor(authors):
@@ -127,8 +179,27 @@ function relatedBooks(bookId, authors, books) {
  ****************************************************************/
 function friendliestAuthor(authors) {
   // Your code goes here
+  // let allBookID = authors.map((author) => author.books);
+  // //console.log(allBookID);
+  // let StringOfBooks = allBookID.join();
+  // // console.log(StringOfBooks);
+  // let ArrayOfBookIDs = StringOfBooks.split(",");
+  // console.log(ArrayOfBookIDs);
+  // let setArraybookids = new Set(ArrayOfBookIDs);
+  // let duplicates = ArrayOfBookIDs.filter((id) => {
+  //   if (setArraybookids.has(id)) {
+  //     setArraybookids.delete(id);
+  //   } else {
+  //     return id;
+  //   }
+  // });
+  // // console.log("dupliactes", duplicates);
+  // let authorsNames = authors.map((author) =>
+  //   author.books.map((book) => book === duplicates.filter((id) => id === book))
+  // );
+  // console.log("author names updated", authorsNames);
 }
-// console.log(friendliestAuthor(authors));
+console.log(friendliestAuthor(authors));
 
 module.exports = {
   getBookById,
