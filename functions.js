@@ -59,21 +59,39 @@ function booksByColor(books) {
   // let arrayAllColors = colorsArray.map((c) =>
   //   books.filter((book) => book.color === c)
   // );
-  let arrayAllColors = colorsArray.map((c) => ({
-    colorr: c,
-    bookTitle: books.map((book) => book.title && book.color === c),
-  }));
-  //console.log("allcolors updated test !!! ", arrayAllColors[0]);
+  // let arrayAllColors = colorsArray.map((c) => ({
+  //   colorr: c,
+  //   bookTitle: books.map((book) => book.title && book.color === c),
+  // }));
+  // //console.log("allcolors updated test !!! ", arrayAllColors[0]);
 
-  let finalArray = arrayAllColors.map((col) => ({
-    colorr: col.color,
-    bookTitle: col.title,
-  }));
+  // let finalArray = arrayAllColors.map((col) => ({
+  //   colorr: col.color,
+  //   bookTitle: col.title,
+  // }));
 
+  //(colour) => (colors[colour] = books.filter((book) => book.color == colour))
+
+  // (colors[colour] = books.map((book) => {
+  //   if (colour == book.color) {
+  //     return book.title;
+  //   }
+  // }))
+  colorsArray.forEach(
+    (colour) =>
+      (colors[colour] = books.map((book) => {
+        if (book.color === colour) {
+          return book.title;
+        }
+      }))
+  );
+
+  // console.log("testing object", colors);
+  //console.log("alwan", colorsArray);
   return colors;
 }
 //return authors.map((a) => ({ author: a.name, bookCount: a.books.length }));
-// console.log("books filter", booksFilter);
+//console.log("books filter", booksFilter);
 
 //console.log(booksByColor(books));
 
